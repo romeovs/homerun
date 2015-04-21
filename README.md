@@ -104,6 +104,56 @@ To see what an install script will do, without doing it, run:
 homerun dry
 ```
 
+## bin directories
+If you have scripts you keep under source control in the
+config directory, you can put them under the tool's `bin/` directory.
+
+For example, I keep `homerun` itself in my `$XDG_CONFIG_HOME`:
+
+```
+$XDG_CONFIG_HOME/
+  |
+  +-- homerun/
+      +-- bin/
+          +-- homerun
+```
+
+The initialisation script will automatically add every `bin/` directory
+to your `$PATH` variable.
+
+To enable this, add this to your shell's rc file:
+```sh
+source "$XDG_CONFIG_HOME/homerun/initialize"
+```
+
+
+## wrapping up
+
+Concretely my `$XDG_CONFIG_HOME` looks like this:
+
+```
+$XDG_CONFIG_HOME/
+  |
+  +-- install
+  +-- git/
+  |   +-- config
+  |   +-- ignore
+  +-- homerun/
+  |   +-- bin/
+  |       +-- homerun
+  +-- vim/
+  |   +-- vimrc
+  |   +-- vimfiles
+  |   +-- include
+  |   +-- install
+  +-- zsh/
+      +-- .zprofile
+      +-- .zshrc
+      +-- zshenv
+      +-- install
+```
+
+
 # Installation & Usage
 
 ## New repository
