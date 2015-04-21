@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+
+# add bin to path
+export PATH="$PATH:$XDG_CONFIG_HOME/bin"
+
+for dir in "$XDG_CONFIG_HOME"/*; do
+  if [ -d "$dir" ]; then
+
+    # source include file
+    include="$dir/include"
+    if [ -f "$include" ]; then
+      source $include
+    fi
+
+    # add path
+    bin="$dir/bin";
+    if [ -d "$bin" ]; then
+      export PATH="$PATH:$bin"
+    fi
+  fi
+done
+
+
+HOMERUN=`which homerun`
+homerun() {
+  if [ "$1" = "cd" ] && [ -n "$2" ]; then
+    cd "$XDG_CONFIG_HOME/$2"
+  else
+    "$HOMERUN" "$@"
+  fi
+}

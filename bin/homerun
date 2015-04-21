@@ -1,0 +1,42 @@
+#!/usr/bin/env sh
+
+# get dir of homerun
+homerun=$(dirname $(dirname $0))
+
+# get command
+task=$1
+shift
+
+function help() {
+  printf "Usage: homerun TASK [arguments]
+
+Tasks:
+  homerun install      # run install scripts
+  homerun cd TOOL      # go into TOOL dir of \$XDG_CONFIG_HOME
+"
+}
+
+function error() {
+  echo '\033[0;31m'Error: $1'\033[0m'
+  exit 1
+}
+
+function task() {
+  sh "${homerun}/lib/$1";
+}
+
+
+case "$task" in
+'install')
+  task "install";
+  ;;
+
+'help')
+  help
+  ;;
+
+*)
+  error "unkown task \`${task}\`"
+  ;;
+esac
+

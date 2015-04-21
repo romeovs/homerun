@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+
+# set config home
+if [ -z "$XDG_CONFIG_HOME" ]; then
+  echo '$XDG_CONFIG_HOME not set, falling back to `~/.config`'
+  export XDG_CONFIG_HOME="$HOME/.config"
+fi
+
+# set caceh path
+if [ -z "$XDG_CACHE_HOME" ]; then
+  echo '$XDG_CACHE_HOME not set, falling back to `~/.cache`'
+  export XDG_CACHE_HOME="$HOME/.cache"
+fi
+
+# intialize cache dir
+mkdir "$XDG_CACHE_HOME"
+
+# run global install script first
+sh "$XDG_CONFIG_HOME/install"
+
+# run every install script
+for dir in "$XDG_CONFIG_HOME"/*; do
+  if [ -d "$dir" ]; then
+    # add path
+    install="$dir/install";
+    if [ -f "$install" ]; then
+      cd "$dir"
+      sh "$install"
+    fi
+  fi
+done
+
+# vim: ft=zsh
