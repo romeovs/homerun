@@ -1,6 +1,114 @@
+# Homerun
 
+Homerun is a simple dotfile management tool.
+It does nothing more that give you a bit of a framework
+to structure your dotfiles and be able to keep them under
+source control.
 
-To initialize an empty dotfile repository:
+`homerun` is based on a few simple principles:
+
+  - config should be put under `$XDG_CONFIG_HOME`, not `$HOME`
+  - do not use symlinks to `$HOME` when not necessary
+  - config for one tool should be as un-scattered as possible
+
+## "The" solution
+`homerun` tries to accomplish the above by providing a simple
+structure.  All dotfiles are kept under `$XDG_CONFIG_HOME`, every tool
+has its own subdirectory like so:
+
+```
+$XDG_CONFIG_HOME/
+  |
+  +-- git/
+  |   +-- config
+  |   +-- ignore
+  +-- vim/
+  |   +-- vimrc
+  |   +-- vimfiles
+  +-- zsh/
+      +-- .zprofile
+      +-- .zshrc
+      +-- zshenv
+```
+
+## include scripts
+
+Most dotfile managers keep files in a certain directory like the above,
+but the way they handle using them is different in `homerun`.  Most tools
+symlink all the files back to `$HOME` so your tools can find them.  I didn't
+like this, so I took a different approach.
+
+Every tool can have a file called `include` inside their directory that
+specifies how the tool should be called.  For instance, the `include`
+script in the `vim` config directory might look like this:
+
+```sh
+export EDITOR="nvim -u $XDG_CONFIG_HOME/vim/vimrc"
+alias vim="$EDITOR"
+```
+
+This tells `vim` to start with the `-u` option that tells it to
+look for a config file in `$XDG_CONFIG_HOME/vim/vimrc` instead of `~/.vimrc`.
+
+`homerun` provides a simple script that can be sourced by your shell 
+config file that automatically includes all the `include` scripts inside
+`$XDG_CONFIG_HOME`.  To use it, add the following to your shell's rc file:
+
+```sh
+source "$XDG_CONFIG_HOME/homerun/initialize"
+```
+(assuming `homerun` is installed under `$XDG_CONFIG_HOME/homerun`).
+
+## install scripts
+Some tools do need symlinking because they really do expect a config file
+under `$HOME` and provide no flag to alter this behaviour.  Some scripts
+might also need some installation steps to be performed, like installing
+dependencies etc.
+
+To accomplish this, you can add a script called `install` to the tool's config
+directory.  For instance, the `zsh` config dir might contain and `install`
+script:
+
+```sh
+# install zsh and some dependencies
+brew install zsh ffind
+
+# link the zshenv into $HOME
+ln -s "$XDG_CONFIG_HOME/zsh/zshenv" "$HOME/.zshenv"
+```
+
+To run the install script for a specific tool, you can run:
+```sh
+homerun install TOOLNAME
+```
+
+to run them all, do not provide a tool name:
+```sh
+homerun install
+```
+
+You can also put an install script in `$XDG_CONFIG_HOME` directly.  This
+will be called before all other install scripts and can therefore be used to
+install global dependencies.  For instance:
+```sh
+# install brew
+echo 'installing homebrew...'
+ruby -e `curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install`
+
+# install node
+brew install node
+```
+
+To see what an install script will do, without doing it, run:
+```sh
+homerun dry
+```
+
+# Installation & Usage
+
+## New repository
+
+To initialize an empty dotfile repository and start using it:
 
 ```sh
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -23,6 +131,9 @@ This will:
   - create a git repository for your dotfiles
   - make sure you don't add `homerun` stuff to this repository
 
+`homerun` has only one dependency: `git`, so you'll need to have that installed.
+
+## Using dotfiles from a repo
 
 To use an existing dotfile repo, and start using `homerun`:
 
