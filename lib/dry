@@ -17,8 +17,14 @@ step() {
 }
 
 run() {
-  step run "$1"
-  cat "$1" | sed -e '/^ *#/ d' -e '/^$/ d' -e 's/^\(.*\)/  \1/'
+  dir="$1"
+  if [ -d "$dir" ]; then
+    install="$dir/install"
+    if [ -f "$install" ]; then
+      step run "$install"
+      cat "$install" | sed -e '/^ *#/ d' -e '/^$/ d' -e 's/^\(.*\)/  \1/'
+    fi
+  fi
 }
 
 echo "dry-running:
@@ -34,13 +40,17 @@ step mkdir "$XDG_CACHE_HOME"
 # run global install script first
 run "$XDG_CONFIG_HOME/install"
 
-# run every install script
-for dir in "$XDG_CONFIG_HOME"/*; do
-  if [ -d "$dir" ]; then
-    # add path
-    install="$dir/install";
-    if [ -f "$install" ]; then
-      run "$install"
-    fi
-  fi
-done
+if [ $# -gt 0 ]; then
+  # run every install script in arguments
+  for arg in "$@"; do
+    dir="$XDG_CONFIG_HOME/$arg";
+    run "$dir"
+  done
+else
+  # run every install script
+  for dir in "$XDG_CONFIG_HOME"/*; do
+    run $dir;
+  done
+fi
+
+# vim: ft=sh

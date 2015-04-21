@@ -23,7 +23,9 @@ function error() {
 }
 
 function task() {
-  sh "${homerun}/lib/$1";
+  task="$1"
+  shift
+  sh "${homerun}/lib/$task" "$@";
 }
 
 
@@ -33,7 +35,7 @@ case "$task" in
   ;;
 
 'dry')
-  task "dry"
+  task "dry" "$@"
   ;;
 
 'help')

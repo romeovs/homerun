@@ -18,16 +18,28 @@ mkdir "$XDG_CACHE_HOME"
 # run global install script first
 sh "$XDG_CONFIG_HOME/install"
 
-# run every install script
-for dir in "$XDG_CONFIG_HOME"/*; do
+function run() {
+  dir="$1"
   if [ -d "$dir" ]; then
-    # add path
-    install="$dir/install";
+    install="$dir/install"
     if [ -f "$install" ]; then
       cd "$dir"
       sh "$install"
     fi
   fi
-done
+}
 
-# vim: ft=zsh
+if [ $# -gt 0 ]; then
+  # run every install script in arguments
+  for arg in "$@"; do
+    dir="$XDG_CONFIG_HOME/$arg";
+    run "$dir"
+  done
+else
+  # run every install script
+  for dir in "$XDG_CONFIG_HOME"/*; do
+    run $dir;
+  done
+fi
+
+# vim: ft=sh
