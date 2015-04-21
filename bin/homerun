@@ -12,6 +12,7 @@ function help() {
 
 Tasks:
   homerun install      # run install scripts
+  homerun dry-run      # dry-run install script
   homerun cd TOOL      # go into TOOL dir of \$XDG_CONFIG_HOME
 "
 }
@@ -28,7 +29,11 @@ function task() {
 
 case "$task" in
 'install')
-  task "install";
+  task "install"
+  ;;
+
+'dry-run')
+  task "dry-run"
   ;;
 
 'help')

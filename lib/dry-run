@@ -1,0 +1,46 @@
+#!/usr/bin/env sh
+
+# set config home
+if [ -z "$XDG_CONFIG_HOME" ]; then
+  echo '$XDG_CONFIG_HOME not set, falling back to `~/.config`'
+  export XDG_CONFIG_HOME="$HOME/.config"
+fi
+
+# set cache path
+if [ -z "$XDG_CACHE_HOME" ]; then
+  echo '$XDG_CACHE_HOME not set, falling back to `~/.cache`'
+  export XDG_CACHE_HOME="$HOME/.cache"
+fi
+
+step() {
+  echo '\033[0;33m'$1 $2'\033[0m'
+}
+
+run() {
+  step run "$1"
+  cat "$1" | sed -e '/^ *#/ d' -e '/^$/ d' -e 's/^\(.*\)/  \1/'
+}
+
+echo "dry-running:
+
+\$HOME="$HOME"
+\$XDG_CONFIG_HOME=$XDG_CONFIG_HOME
+\$XDG_CACHE_HOME=$XDG_CACHE_HOME
+"
+
+# intialize cache dir
+step mkdir "$XDG_CACHE_HOME"
+
+# run global install script first
+run "$XDG_CONFIG_HOME/install"
+
+# run every install script
+for dir in "$XDG_CONFIG_HOME"/*; do
+  if [ -d "$dir" ]; then
+    # add path
+    install="$dir/install";
+    if [ -f "$install" ]; then
+      run "$install"
+    fi
+  fi
+done
