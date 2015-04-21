@@ -32,8 +32,8 @@ case "$task" in
   task "install"
   ;;
 
-'dry-run')
-  task "dry-run"
+'dry')
+  task "dry"
   ;;
 
 'help')
