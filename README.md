@@ -10,6 +10,7 @@ source control.
   - config should be put under `$XDG_CONFIG_HOME`, not `$HOME`
   - do not use symlinks to `$HOME` when not necessary
   - config for one tool should be as un-scattered as possible
+  - leave version control to the user
 
 ## "The" solution
 `homerun` tries to accomplish the above by providing a simple
@@ -196,6 +197,10 @@ This will:
   - make sure you don't add `homerun` stuff to this repository
 
 `homerun` has only one dependency: `git`, so you'll need to have that installed.
+
+Note that this is only one way to set up version control for your dotfiles,
+some might want to split up the repo and keep a repo for each tool.  `homerun`
+currently does not support profiles, configuration groups or anything of the sort.
 
 ## Using dotfiles from a repo
 
