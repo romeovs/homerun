@@ -145,13 +145,17 @@ $XDG_CONFIG_HOME/
       homerun
 ```
 
-The initialisation script will automatically add every `bin/` directory
+The initialization script will automatically add every `bin/` directory
 to your `$PATH` variable.
 
 To enable this, add this to your shell's rc file:
 ```sh
 source "$XDG_CONFIG_HOME/homerun/initialize"
 ```
+
+If you have scripts that you want to keep in the config repo, but that do not
+need additional configuration, put them in `$XDG_CONFIG_HOME/bin`, this path
+will also be added to `$PATH` by homerun's initialization script.
 
 
 ## wrapping up
