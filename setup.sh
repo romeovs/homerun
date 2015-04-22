@@ -25,6 +25,8 @@ if [ -z "$XDG_CONFIG_HOME" ]; then
   export XDG_CONFIG_HOME="$HOME/.config"
 fi
 
+log "\$XDG_CONFIG_HOME=$XDG_CONFIG_HOME"
+
 homerun="$XDG_CONFIG_HOME/homerun"
 repo="https://github.com/romeovs/homerun"
 
