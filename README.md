@@ -184,6 +184,8 @@ $XDG_CONFIG_HOME/
     zshenv
 ```
 
+You can see all my dotfiles at [romeovs/dotfiles](https://github.com/romeovs/dotfiles).
+They also use `homerun` so you can get some configuration inspiration there.
 
 # Installation & Usage
 
