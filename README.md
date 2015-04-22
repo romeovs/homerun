@@ -196,8 +196,6 @@ This will:
   - create a git repository for your dotfiles
   - make sure you don't add `homerun` stuff to this repository
 
-`homerun` has only one dependency: `git`, so you'll need to have that installed.
-
 Note that this is only one way to set up version control for your dotfiles,
 some might want to split up the repo and keep a repo for each tool.  `homerun`
 currently does not support profiles, configuration groups or anything of the sort.
