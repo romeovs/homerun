@@ -200,6 +200,13 @@ Note that this is only one way to set up version control for your dotfiles,
 some might want to split up the repo and keep a repo for each tool.  `homerun`
 currently does not support profiles, configuration groups or anything of the sort.
 
+If you do not have git installed, you can also use:
+```sh
+mkdir -pv "$XDG_CONFIG_HOME/homerun"
+cd "$XDG_CONFIG_HOME/homerun"
+curl -Lk https://github.com/romeovs/homerun/archive/master.tar.gz | tar zx --strip=1
+```
+
 ## Using dotfiles from a repo
 
 To use an existing dotfile repo, and start using `homerun`:
