@@ -18,17 +18,17 @@ has its own subdirectory like so:
 
 ```
 $XDG_CONFIG_HOME/
-  |
-  +-- git/
-  |   +-- config
-  |   +-- ignore
-  +-- vim/
-  |   +-- vimrc
-  |   +-- vimfiles
-  +-- zsh/
-      +-- .zprofile
-      +-- .zshrc
-      +-- zshenv
+  git/
+    config
+    ignore
+  vim/
+    vimrc
+    vimfiles/
+  zsh/
+    functions/
+    .zprofile
+    .zshrc
+    zshenv
 ```
 
 ## include scripts
@@ -112,10 +112,9 @@ For example, I keep `homerun` itself in my `$XDG_CONFIG_HOME`:
 
 ```
 $XDG_CONFIG_HOME/
-  |
-  +-- homerun/
-      +-- bin/
-          +-- homerun
+  homerun/
+    bin/
+      homerun
 ```
 
 The initialisation script will automatically add every `bin/` directory
@@ -133,24 +132,24 @@ Concretely my `$XDG_CONFIG_HOME` looks like this:
 
 ```
 $XDG_CONFIG_HOME/
-  |
-  +-- install
-  +-- git/
-  |   +-- config
-  |   +-- ignore
-  +-- homerun/
-  |   +-- bin/
-  |       +-- homerun
-  +-- vim/
-  |   +-- vimrc
-  |   +-- vimfiles
-  |   +-- include
-  |   +-- install
-  +-- zsh/
-      +-- .zprofile
-      +-- .zshrc
-      +-- zshenv
-      +-- install
+  install
+  git/
+    config
+    ignore
+  homerun/
+    bin/
+      homerun
+  vim/
+    include
+    install
+    vimrc
+    vimfiles/
+  zsh/
+    .zprofile
+    .zshrc
+    functions/
+    install
+    zshenv
 ```
 
 
