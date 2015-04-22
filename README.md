@@ -12,6 +12,18 @@ source control.
   - config for one tool should be as un-scattered as possible
   - leave version control to the user
 
+#### Contents
+  - ["The" Solution](#the-solution)
+    - [include scripts](#include-scripts)
+    - [install scripts](#install-scripts)
+    - [bin directories](#bin-directories)
+    - [wrapping up](#wrapping-up)
+  - [Installation & Usage](#installation--usage)
+    - [New repository](#new-repository)
+    - [quickstart](#quickstart)
+    - [Using dotfiles from a repo](#using-dotfiles-from-a-repo)
+
+
 ## "The" solution
 `homerun` tries to accomplish the above by providing a simple
 structure.  All dotfiles are kept under `$XDG_CONFIG_HOME`, every tool
@@ -207,6 +219,7 @@ cd "$XDG_CONFIG_HOME/homerun"
 curl -Lk https://github.com/romeovs/homerun/archive/master.tar.gz | tar zx --strip=1
 ```
 
+### Quickstart
 To get started very quickly:
 ```sh
 export XDG_CONFIG_HOME="$HOME/.config"
