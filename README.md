@@ -59,6 +59,21 @@ source "$XDG_CONFIG_HOME/homerun/initialize"
 ```
 (assuming `homerun` is installed under `$XDG_CONFIG_HOME/homerun`).
 
+The include scripts can also be placed under a directory named
+`inlude/` in a tool's config dir.  This is handy when you have a lot
+of unrelated things you want to include and you want to split up the code.
+For example, one might want to split up the `include` script for a tool
+named `foo` into two scripts: `alias` and `completion`:
+
+```
+$XDG_CONFIG_HOME/
+  foo/
+    include/
+      alias
+      completion
+    ...
+```
+
 ## install scripts
 Some tools do need symlinking because they really do expect a config file
 under `$HOME` and provide no flag to alter this behaviour.  Some scripts

@@ -9,7 +9,13 @@ for dir in "$XDG_CONFIG_HOME"/*; do
     # source include file
     include="$dir/include"
     if [ -f "$include" ]; then
-      source $include
+      source "$include"
+    elif [ -d "$include" ]; then
+      for file in "$include"/*; do
+        if [ -f "$file" ]; then
+          source "$file"
+        fi
+      done
     fi
 
     # add path
