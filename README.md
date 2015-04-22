@@ -207,6 +207,15 @@ cd "$XDG_CONFIG_HOME/homerun"
 curl -Lk https://github.com/romeovs/homerun/archive/master.tar.gz | tar zx --strip=1
 ```
 
+To get started very quickly:
+```sh
+export XDG_CONFIG_HOME="$HOME/.config"
+curl -s https://raw.githubusercontent.com/romeovs/homerun/master/setup.sh | sh
+```
+if you do not set the `$XDG_CONFIG_HOME`, the install script will fall back to
+`$HOME/.install`.
+
+
 ## Using dotfiles from a repo
 
 To use an existing dotfile repo, and start using `homerun`:
