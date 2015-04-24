@@ -22,5 +22,6 @@ function install {
   fi
 
   visit run "$@"
+  finish install completed
 }
 # vim: ft=sh

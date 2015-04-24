@@ -28,6 +28,7 @@ function dry {
   fi
 
   visit run "$@"
+  finish dry-run completed
 }
 
 # vim: ft=sh

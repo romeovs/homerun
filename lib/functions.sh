@@ -40,3 +40,7 @@ function visit {
     done
   fi
 }
+
+function finish {
+  echo '\033[32m✓\033[0m' "$@"
+}
