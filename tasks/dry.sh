@@ -14,12 +14,10 @@ function run {
 
 
 function dry {
-  echo "dry-running:
-
-  \$HOME="$HOME"
+  step dry-running with this environment
+  echo "  \$HOME="$HOME"
   \$XDG_CONFIG_HOME=$XDG_CONFIG_HOME
-  \$XDG_CACHE_HOME=$XDG_CACHE_HOME
-  "
+  \$XDG_CACHE_HOME=$XDG_CACHE_HOME"
 
   # intialize cache dir
   step mkdir "$XDG_CACHE_HOME"
