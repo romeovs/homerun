@@ -1,49 +1,19 @@
 #!/usr/bin/env sh
 
 # get dir of homerun
-homerun=$(dirname $(dirname $0))
+export homerun=$(dirname $(dirname $0))
+
+# source functions
+source "$homerun/lib/defaults.sh"
+source "$homerun/lib/functions.sh"
+
 
 # get command
-task=$1
+task="$1"
 shift
 
-function help() {
-  printf "Usage: homerun TASK [arguments]
-
-Tasks:
-  homerun install      # run install scripts
-  homerun dry-run      # dry-run install script
-  homerun cd TOOL      # go into TOOL dir of \$XDG_CONFIG_HOME
-"
-}
-
-function error() {
-  echo '\033[0;31m'Error: $1'\033[0m'
-  exit 1
-}
-
-function task() {
-  task="$1"
-  shift
-  sh "${homerun}/lib/$task" "$@";
-}
-
-
-case "$task" in
-'install')
-  task "install"
-  ;;
-
-'dry')
-  task "dry" "$@"
-  ;;
-
-'help')
-  help
-  ;;
-
-*)
-  error "unkown task \`${task}\`"
-  ;;
-esac
-
+if [ -z "$task" ]; then
+  runtask help
+else
+  runtask "$task" "$@"
+fi
