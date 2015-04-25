@@ -6,7 +6,7 @@ function step {
 
 # display an error
 function error {
-  echo '\033[0;31m'Error: $1'\033[0m'
+  echo "\033[0;31mError: $1\033[0m"
   exit 1
 }
 

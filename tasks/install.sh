@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
-function run {
-  dir="$1"
-  tool=$(basename $dir)
+run() {
+  local dir="$1"
   if [ -d "$dir" ]; then
     install="$dir/install"
     if [ -f "$install" ]; then
@@ -12,7 +11,7 @@ function run {
   fi
 }
 
-function install {
+install() {
   # intialize cache dir
   mkdir -p "$XDG_CACHE_HOME"
 

@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 
 # get dir of homerun
-export homerun=$(dirname $(dirname $0))
+export homerun=$(dirname "$(dirname "$0")")
 
 # source functions
-source "$homerun/lib/defaults.sh"
-source "$homerun/lib/functions.sh"
+. "$homerun/lib/defaults.sh"
+. "$homerun/lib/functions.sh"
 
 
 # get command

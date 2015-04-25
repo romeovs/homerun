@@ -3,17 +3,18 @@
 # add bin to path
 export PATH="$PATH:$XDG_CONFIG_HOME/bin"
 
+# include every include script
 for dir in "$XDG_CONFIG_HOME"/*; do
   if [ -d "$dir" ]; then
 
     # source include file
     include="$dir/include"
     if [ -f "$include" ]; then
-      source "$include"
+      . "$include"
     elif [ -d "$include" ]; then
       for file in "$include"/*; do
         if [ -f "$file" ]; then
-          source "$file"
+          . "$file"
         fi
       done
     fi
@@ -27,8 +28,9 @@ for dir in "$XDG_CONFIG_HOME"/*; do
 done
 
 
-HOMERUN=`which homerun`
+HOMERUN=$(which homerun)
 homerun() {
+  # homerun cd cannot be a script
   if [ "$1" = "cd" ] && [ -n "$2" ]; then
     cd "$XDG_CONFIG_HOME/$2"
   else

@@ -1,15 +1,15 @@
 #!/usr/bin/env sh
-function run {
+run() {
   dir="$1"
-  tool=$(basename $dir)
+  tool=$(basename "$dir")
   if [ -d "$dir" ]; then
-    if [ $tool != 'bin' ]; then
-      echo $tool
+    if [ "$tool" != 'bin' ]; then
+      echo "$tool"
     fi
   fi
 }
 
-function list {
+list() {
   visit run "$@"
 }
 # vim: ft=sh

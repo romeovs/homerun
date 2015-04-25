@@ -1,21 +1,21 @@
 #!/usr/bin/env sh
 
-function run {
+run() {
   dir="$1"
-  tool=$(basename $dir)
+  tool=$(basename "$dir")
   if [ -d "$dir" ]; then
     install="$dir/install"
     if [ -f "$install" ]; then
-      step installing $tool
-      cat "$install" | sed -e '/^ *#/ d' -e '/^$/ d' -e 's/^\(.*\)/  \1/'
+      step installing "$tool"
+      sed -e '/^ *#/ d' -e '/^$/ d' -e 's/^\(.*\)/  \1/' "$install"
     fi
   fi
 }
 
 
-function dry {
+dry() {
   step dry-running with this environment
-  echo "  \$HOME="$HOME"
+  echo "  \$HOME=$HOME
   \$XDG_CONFIG_HOME=$XDG_CONFIG_HOME
   \$XDG_CACHE_HOME=$XDG_CACHE_HOME"
 
