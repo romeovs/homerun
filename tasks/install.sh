@@ -4,7 +4,7 @@ run() {
   if [ -d "$dir" ]; then
     install="$dir/install"
     if [ -f "$install" ]; then
-      step 'installing zsh'
+      step 'installing $1'
       cd "$dir"
       sh "$install"
     fi
