@@ -4,7 +4,7 @@ run() {
   if [ -d "$dir" ]; then
     install="$dir/install"
     if [ -f "$install" ]; then
-      step "installing $1"
+      step "installing $2"
       cd "$dir"
       sh "$install"
     fi
@@ -21,6 +21,6 @@ install() {
   fi
 
   visit run "$@"
-  finish install completed
+  finish "install completed"
 }
 # vim: ft=sh

@@ -32,7 +32,7 @@ function visit {
   if [ $# -gt 1 ]; then
     for arg in "$@"; do
       dir="$XDG_CONFIG_HOME/$arg"
-      $fn "$dir"
+      $fn "$dir" "$arg"
     done
   else
     for dir in "$XDG_CONFIG_HOME"/*; do
