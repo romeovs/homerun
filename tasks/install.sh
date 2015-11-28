@@ -4,7 +4,7 @@ run() {
   if [ -d "$dir" ]; then
     install="$dir/install"
     if [ -f "$install" ]; then
-      step "installing $2"
+      step "executing $dir"
       cd "$dir"
       sh "$install"
     fi
@@ -23,4 +23,18 @@ install() {
   visit run "$@"
   finish "install completed"
 }
+
+
+export help_arg='[tool1 [tool2 [...]]]'
+export help_msg="
+    execute install scripts.
+
+    runs \$XDG_CONFIG_HOME/<toolname>/install for every
+    <toolname> in the list of arguments.
+
+    If no arguments are given, the install scripts for
+    all tools in \$XDG_CONFIG_HOME are run, in addition
+    to the global install file at \$XDG_CONFIG_HOME
+"
+
 # vim: ft=sh

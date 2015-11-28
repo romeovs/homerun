@@ -12,4 +12,8 @@ run() {
 list() {
   visit run "$@"
 }
+
+export help_msg="
+    List all tools that are kept in homerun.
+"
 # vim: ft=sh
