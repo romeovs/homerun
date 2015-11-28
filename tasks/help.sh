@@ -1,54 +1,221 @@
 
-function help_for_task() {
+
+
+ul=`tput smul`
+b=`tput bold`
+n=`tput sgr0`
+xdgh="${b}\$XDG_CONFIG_HOME${n}"
+hh="${b}\$HOME${n}"
+
+
+function arg() {
+  printf "<${ul}$1${n}>"
+}
+
+function title() {
+  echo "${b}$@${n}"
+}
+
+function indent() {
+  local spaces=`printf "%$1s"`
+  printf "$2" | sed "s/^/$spaces/"
+}
+
+function read_task() {
   local task="$1"
   local script="$homerun/tasks/${task}.sh"
   help_msg=''
   help_arg=''
 
-  source "$script"
-  local name=`basename $script`
-  local task="${name%.sh}"
-  printf "  \033[1m%s\033[0m %s\n    %s\n" $task "$help_arg" "$help_msg"
+
+  if [ -f "$script" ]; then
+    source "$script"
+  else
+    error "task named \`$task\` does not exist."
+  fi
+}
+
+function help_for_task() {
+  local task="$1"
+
+  read_task "$task"
+
+  printf "  \033[1m%s\033[0m %s\n    %s\n\n" $task "$help_arg" "$(indent 4 "$help_msg")"
   help_msg=''
   help_arg=''
 }
+
+description="
+Homerun is a simple dotfile management tool.
+It does nothing more that give you a bit of a framework
+to structure your dotfiles and be able to keep them under
+source control.
+"
+
+configuration="
+All configuration files are kept under $xdgh, using a directory
+per 'tool' that needs configuration. For instance, if you want to keep
+vim under homerun control, create a directory named 'vim' in $xdgh and
+put .vimrc and .vim/ there (dropping the leading dots for convenience
+and renaming .vim/ to vimfiles/):
+
+  $xdgh
+    vim/
+      vimrc
+      vimfiles
+      include
+      install
+
+The reasons for the  include and install files will become clear
+in the following sections.
+
+We now need to somehow tell our environment that the configuration
+for vim is not stored under $hh anymore. The explaination of mechanisms
+to do so can be found in the next sections. In each of these sections,
+vim will be used as the principle example of how to configure homerun.
+
+`title INCLUDE SCRIPTS`
+
+Most dotfile managers keep files in a certain directory like we
+keep them in $xdgh, however, they often use symlinks to $hh
+so your tools can find them.  homerun uses a different approach.
+
+Instead of symlinking all of the config and re-cluttering the $hh
+directory again we just need a way to tell our tools the new location
+of their config.
+
+Every tool can have a file called include inside their directory that
+specifies some thing that the shell needs to include when launching.
+This can be used to override how your tools are called. For instance
+the include script in the vim config directory might look like this:
+
+  export EDITOR=\"nvim -u \$XDG_CONFIG_HOME/vim/vimrc\"
+  alias vim=\"\$EDITOR\"
+
+This tells the shell that vim is to be used zith the  '-u' option
+that tells it to look for a config file in $xdgh/vim/vimrc instead
+of $hh/.vimrc.
+
+The include scripts can also be placed under a directory named
+inlude/ in a tool's config dir.  This is handy when you have a lot
+of unrelated things you want to include and you want to split up the code.
+For example, one might want to split up the include script for a tool
+named foo into two scripts: alias and completion:
+
+  $xdgh
+    foo/
+      include/
+        alias
+        completion
+
+`title INSTALL SCRIPTS`
+
+Some tools do need symlinking because they really do expect a config file
+under $hh and provide no flag to alter this behaviour.  Some scripts
+might also need some installation steps to be performed, like installing
+dependencies etc.
+
+To accomplish this, you can add a script called install to the tool's config.
+For instance, because we're using neovim instead of nvim, we need to install
+this first (it is not there by default) before we can start using it. The
+install script in $xdgh/vim might look like this:
+
+  # install the neovim dependency
+  brew install neovim/neovim/neovim
+
+To run the install script for vim, you can use the following command:
+
+  homerun install vim
+
+You can also put an install script in $xdgh directly. This
+will be called before all other install scripts and can therefore
+be used to install global dependencies.  For instance:
+
+  # install brew
+  echo 'installing homebrew...'
+  ruby -e \`curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install\`
+
+`title BIN DIRECTORIES`
+
+If you have scripts you keep under source control in the
+config directory, you can put them under the tool's bin/ directory.
+
+For example, I keep homerun itself in my $xdgh:
+
+  $xdgh
+    homerun/
+      bin/
+        homerun
+
+If you have scripts that you want to keep in the config repo, but that do not
+need additional configuration, put them in $xdgh/bin.
+
+Homerun will make sure all executable scripts in any bin directory
+will be added to your ${b}\$PATH${n} variable.
+
+`title ENABLING HOMERUN`
+
+To enable all of the features described above, you need to
+source the homerun initialization script each time you start your
+shell. To do this, add the following line to the top of your .profile:
+
+  source \"\$XDG_CONFIG_HOME/homerun/initialize\"
+
+This will:
+
+  - include every include script under homerun
+  - add every bin/ directory to your path
+
+"
 
 function help() {
   shift
 
   if [ $# -eq 0 ]; then
-    echo 'Usage: homerun <task> [arguments...]'
+    echo "Usage: homerun $(arg task) [$(arg argument)...]"
+
     echo
-    echo 'available tasks:'
+    title DESCRIPTION
+    indent 2 "$description"
+
+    echo
+    title TASKS
+    echo
 
     for script in "$homerun"/tasks/*; do
       local task=`basename $script`
       help_for_task "${task%.sh}"
     done
+
+    title CONFIGURATION
+    indent 2 "$configuration"
+
   elif [ $# -eq 1 ]; then
+    # one task given
     local task="$1"
-    local script="$homerun/tasks/${task}.sh"
-    source "$script"
+
+    read_task "$task"
 
     echo "Usage: homerun $task $help_arg"
-    echo "$help_msg"
+    indent 2 "$help_msg"
   else
-    echo 'Usage: homerun <task> [arguments...]'
+    # multiple tasks given
+    echo "Usage: homerun $(arg task) [$(arg argument)...]"
     echo
-    echo 'tasks:'
+    title TASKS
+    echo
+
     for task in "$@"; do
       help_for_task "$task"
     done
   fi
-
-
 }
 
-export help_args="[taskname1 [taskname2 [...]]]"
+export help_arg="[$(arg taskname)...]"
 export help_msg="
-    Print help messages for tasks.
+Print help messages for tasks.
 
-    Prints the help message and usage information for
-    each of the provided tasknames. If no task is provided,
-    it prints the help of all tasks.
+Prints the help message and usage information for
+each of the requested $(arg taskname). If no argument is provided,
+it prints the help of all tasks.
 "

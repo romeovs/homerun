@@ -14,6 +14,6 @@ list() {
 }
 
 export help_msg="
-    List all tools that are kept in homerun.
+List all tools that are kept in homerun.
 "
 # vim: ft=sh

@@ -25,16 +25,16 @@ install() {
 }
 
 
-export help_arg='[tool1 [tool2 [...]]]'
+export help_arg="[$(arg toolname)...]"
 export help_msg="
-    execute install scripts.
+execute install scripts.
 
-    runs \$XDG_CONFIG_HOME/<toolname>/install for every
-    <toolname> in the list of arguments.
+runs $xdgh/$(arg toolname)/install for every
+$(arg toolname) in the list of arguments.
 
-    If no arguments are given, the install scripts for
-    all tools in \$XDG_CONFIG_HOME are run, in addition
-    to the global install file at \$XDG_CONFIG_HOME
+If no arguments are given, the install scripts for
+all tools in $xdgh are run, in addition
+to the global install file at $xdgh.
 "
 
 # vim: ft=sh

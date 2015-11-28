@@ -31,13 +31,13 @@ dry() {
   finish dry-run completed
 }
 
-export help_arg='[tool1 [tool2 [...]]]'
+export help_arg="[$(arg toolname)...]"
 export help_msg="
-    Dry run an install.
+Dry run an install.
 
-    Works the same as \`homerun install\` but just
-    lists the steps that would be taken instead of
-    actually performing them.
+Works the same as \`homerun install\` but just
+lists the steps that would be taken instead of
+actually performing them.
 "
 
 # vim: ft=sh
