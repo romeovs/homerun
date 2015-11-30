@@ -8,12 +8,34 @@ export homerun=$(dirname "$(dirname "$0")")
 . "$homerun/lib/functions.sh"
 
 
-# get command
-task="$1"
-shift
 
-if [ -z "$task" ]; then
-  runtask help
+rest=""
+task=""
+
+for opt in "$@"; do
+  case "$opt" in
+    -h | --help)
+      task="help"
+      ;;
+    *)
+      rest="$rest $opt"
+      ;;
+  esac
+done
+
+
+if [ "$task" != "" ]; then
+  runtask "$task"
 else
-  runtask "$task" "$@"
+  runtask $rest
 fi
+
+# get command
+# task="$1"
+# shift
+#
+# if [ -z "$task" ]; then
+#   runtask help "$@"
+# else
+#   runtask "$task" "$@"
+# fi

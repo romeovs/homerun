@@ -1,6 +1,3 @@
-
-
-
 ul=`tput smul`
 b=`tput bold`
 n=`tput sgr0`
@@ -40,7 +37,7 @@ function help_for_task() {
 
   read_task "$task"
 
-  printf "  \033[1m%s\033[0m %s\n    %s\n\n" $task "$help_arg" "$(indent 4 "$help_msg")"
+  printf "  \033[1m%s\033[0m %s\n    %s\n\n" $task "$help_arg" "`indent 4 "$help_msg"`"
   help_msg=''
   help_arg=''
 }
@@ -168,15 +165,40 @@ This will:
 
 "
 
-function help() {
-  shift
+usage="Usage: homerun `arg task` [`arg argument`...] [-h]"
 
-  if [ $# -eq 0 ]; then
-    echo "Usage: homerun $(arg task) [$(arg argument)...]"
+options="
+$b-h, --help$n  show help (same as homerun help)
+"
+
+function help() {
+
+  local rest=""
+  local N=0
+  local long=0
+
+  for opt in "$@"; do
+    case "$opt" in
+      -l | --long)
+        long=1
+        ;;
+      *)
+        rest="$rest $opt"
+        N=$(( N + 1 ))
+        ;;
+    esac
+  done
+
+  if [ $N -eq 0 ]; then
+    echo "$usage"
 
     echo
     title DESCRIPTION
     indent 2 "$description"
+
+    echo
+    title OPTIONS
+    indent 2 "$options"
 
     echo
     title TASKS
@@ -187,11 +209,11 @@ function help() {
       help_for_task "${task%.sh}"
     done
 
-    title CONFIGURATION
-    indent 2 "$configuration"
-
-  elif [ $# -eq 1 ]; then
-    # one task given
+    if [ $long -eq 1 ]; then
+      title CONFIGURATION
+      indent 2 "$configuration"
+    fi
+  elif [ $N -eq 1 ]; then
     local task="$1"
 
     read_task "$task"
@@ -200,7 +222,7 @@ function help() {
     indent 2 "$help_msg"
   else
     # multiple tasks given
-    echo "Usage: homerun $(arg task) [$(arg argument)...]"
+    echo "$usage"
     echo
     title TASKS
     echo
@@ -211,11 +233,15 @@ function help() {
   fi
 }
 
-export help_arg="[$(arg taskname)...]"
+export help_arg="[`arg taskname`...] [-l]"
 export help_msg="
 Print help messages for tasks.
 
+`title task options`
+
+$b-l, --long$n  show long help
+
 Prints the help message and usage information for
-each of the requested $(arg taskname). If no argument is provided,
+each of the requested `arg taskname`. If no argument is provided,
 it prints the help of all tasks.
 "

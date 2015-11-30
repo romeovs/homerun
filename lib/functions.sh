@@ -19,6 +19,7 @@ function error {
 function runtask {
   local task="$1"
   local script="${homerun}/tasks/${task}.sh"
+  shift
 
   # run script if it exists, error if not
   if [ -f "$script" ]; then
