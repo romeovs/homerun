@@ -6,7 +6,7 @@ run() {
   if [ -d "$dir" ]; then
     install="$dir/install"
     if [ -f "$install" ]; then
-      step installing "$tool"
+      step installing "$t$tool"
       sed -e '/^ *#/ d' -e '/^$/ d' -e 's/^\(.*\)/  \1/' "$install"
     fi
   fi
@@ -14,7 +14,7 @@ run() {
 
 
 dry() {
-  step dry-running with this environment
+  start dry-running with this environment
   echo "  \$HOME=$HOME
   \$XDG_CONFIG_HOME=$XDG_CONFIG_HOME
   \$XDG_CACHE_HOME=$XDG_CACHE_HOME"

@@ -1,18 +1,26 @@
 
 
 function log {
-  echo '\033[0;34mhomerun \033[1;30m•\033[1m' "$@"
+  echo '\033[0;34m[homerun]\033[1m' "$@"
 }
 
 # describe a step in the process
 function step {
-  log '\033[0m'"$@" '\033[0m'
+  log '\033[1;33m~ \033[0m'"$@" '\033[0m'
+}
+
+function start {
+  log '\033[36m* \033[0m'"$@" '\033[0m'
 }
 
 # display an error
 function error {
   log "\033[0;31merror: $1\033[0m"
   exit 1
+}
+
+function finish {
+  log '\033[32m✓\033[0m' "$@"
 }
 
 # run a specific task
@@ -34,14 +42,15 @@ function runtask {
 function visit {
   local fn=$1
   shift
-  shift
+
   if [ $# -gt 0 ]; then
     for arg in "$@"; do
+      tool="$arg"
       dir="$XDG_CONFIG_HOME/$arg"
       if [ -d "$dir" ]; then
         $fn "$dir"
       else
-        error "config for '$dir' does not exist."
+        error "config for '$arg' does not exist."
       fi
     done
   else
@@ -51,6 +60,3 @@ function visit {
   fi
 }
 
-function finish {
-  echo '\033[32m✓\033[0m' "$@"
-}

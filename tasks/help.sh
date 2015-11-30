@@ -1,23 +1,3 @@
-ul=`tput smul`
-b=`tput bold`
-n=`tput sgr0`
-xdgh="${b}\$XDG_CONFIG_HOME${n}"
-hh="${b}\$HOME${n}"
-
-
-function arg() {
-  printf "<${ul}$1${n}>"
-}
-
-function title() {
-  echo "${b}$@${n}"
-}
-
-function indent() {
-  local spaces=`printf "%$1s"`
-  printf "$2" | sed "s/^/$spaces/"
-}
-
 function read_task() {
   local task="$1"
   local script="$homerun/tasks/${task}.sh"

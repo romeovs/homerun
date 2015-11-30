@@ -6,7 +6,7 @@ export homerun=$(dirname "$(dirname "$0")")
 # source functions
 . "$homerun/lib/defaults.sh"
 . "$homerun/lib/functions.sh"
-
+. "$homerun/lib/formatting.sh"
 
 
 rest=""
@@ -29,13 +29,3 @@ if [ "$task" != "" ]; then
 else
   runtask $rest
 fi
-
-# get command
-# task="$1"
-# shift
-#
-# if [ -z "$task" ]; then
-#   runtask help "$@"
-# else
-#   runtask "$task" "$@"
-# fi

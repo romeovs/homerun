@@ -4,7 +4,7 @@ run() {
   if [ -d "$dir" ]; then
     install="$dir/install"
     if [ -f "$install" ]; then
-      step "executing $dir"
+      step "executing $t$dir/install"
       cd "$dir"
       sh "$install"
     fi
@@ -15,7 +15,7 @@ install() {
   # intialize cache dir
   mkdir -p "$XDG_CACHE_HOME"
 
-  if [ $# -eq 1 ]; then
+  if [ $# -eq 0 ]; then
     # run global install script first
     run "$XDG_CONFIG_HOME/install"
   fi
