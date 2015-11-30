@@ -26,14 +26,3 @@ for dir in "$XDG_CONFIG_HOME"/*; do
     fi
   fi
 done
-
-
-HOMERUN=$(which homerun)
-homerun() {
-  # homerun cd cannot be a script
-  if [ "$1" = "cd" ] && [ -n "$2" ]; then
-    cd "$XDG_CONFIG_HOME/$2"
-  else
-    "$HOMERUN" "$@"
-  fi
-}
