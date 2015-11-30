@@ -25,12 +25,12 @@ install() {
 }
 
 
-export help_arg="[$(arg toolname)...]"
+export help_arg="[`arg toolname`...]"
 export help_msg="
 execute install scripts.
 
-runs $xdgh/$(arg toolname)/install for every
-$(arg toolname) in the list of arguments.
+runs $xdgh/`arg toolname`/install for every
+`arg toolname` in the list of arguments.
 
 If no arguments are given, the install scripts for
 all tools in $xdgh are run, in addition

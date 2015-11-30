@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 run() {
   dir="$1"
-  tool=$(basename "$dir")
+  tool=`basename "$dir"`
   if [ -d "$dir" ]; then
     if [ "$tool" != 'bin' ]; then
       echo "$tool"

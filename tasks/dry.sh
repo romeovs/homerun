@@ -2,7 +2,7 @@
 
 run() {
   dir="$1"
-  tool=$(basename "$dir")
+  tool=`basename "$dir"`
   if [ -d "$dir" ]; then
     install="$dir/install"
     if [ -f "$install" ]; then
@@ -31,7 +31,7 @@ dry() {
   finish dry-run completed
 }
 
-export help_arg="[$(arg toolname)...]"
+export help_arg="[`arg toolname`...]"
 export help_msg="
 Dry run an install.
 
