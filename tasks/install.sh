@@ -17,7 +17,7 @@ install() {
 
   if [ $# -eq 0 ]; then
     # run global install script first
-    run "$XDG_CONFIG_HOME/install"
+    run "$XDG_CONFIG_HOME"
   fi
 
   visit run "$@"

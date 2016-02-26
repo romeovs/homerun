@@ -22,9 +22,9 @@ dry() {
   # intialize cache dir
   step mkdir "$XDG_CACHE_HOME"
 
-  if [ $# -eq 1 ]; then
+  if [ $# -eq 0 ]; then
     # run global install script first
-    run "$XDG_CONFIG_HOME/install"
+    run "$XDG_CONFIG_HOME"
   fi
 
   visit run "$@"
